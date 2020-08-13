@@ -16,7 +16,11 @@
           label="Last Name"
           required
         ></v-text-field>
-        <vue-tel-input-vuetify v-model="phone" />
+        <vue-tel-input-vuetify
+          v-model="phone"
+          :class="{ 'is-invalid': submitted && $v.phone.$error }"
+          :error-messages="phoneErrors"
+        />
         <v-menu
           v-model="menu"
           :close-on-content-click="false"
@@ -67,7 +71,19 @@
           label="E-mail"
           required
         ></v-text-field>
-
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="3">
+            Booking Period
+          </v-col>
+        </v-row>
+        <v-row align="center" justify="center">
+          <v-col cols="12" md="5">
+            <v-date-picker v-model="date"></v-date-picker>
+          </v-col>
+          <v-col cols="12" md="5">
+            <v-date-picker v-model="date"></v-date-picker>
+          </v-col>
+        </v-row>
         <v-btn class="mr-4" @click.prevent="submit">submit</v-btn>
         <v-btn @click="clear">clear</v-btn>
       </form>
@@ -85,6 +101,8 @@ export default {
     firstName: { required },
     lastName: { required },
     id: { required },
+    other: { required },
+    phone: { required },
     email: { email },
     select: { required },
     checkbox: {
@@ -161,6 +179,13 @@ export default {
         errors.push('Some type of Identification is required')
       return errors
     },
+    phoneErrors() {
+      const errors = []
+      if (!this.$v.phone.$dirty) return errors
+      !this.$v.phone.required &&
+        errors.push('Customer phone number is required')
+      return errors
+    },
   },
 
   methods: {
@@ -180,6 +205,7 @@ export default {
       this.lastName = ''
       this.email = ''
       this.id = ''
+      this.other = ''
       this.select = null
       this.submitted = false
       this.menu = false
