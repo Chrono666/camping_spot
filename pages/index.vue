@@ -1,13 +1,9 @@
 <template>
   <v-container>
-    <h1>Camping Spot</h1>
-    <Form />
+    <nuxt-link to="/customer">Customer</nuxt-link>
   </v-container>
 </template>
 
 <script>
-import Form from '~/components/Form/Form'
-export default {
-  components: { Form },
-}
+export default {}
 </script>

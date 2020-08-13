@@ -1,62 +1,91 @@
 <template>
-  <form>
-    <v-text-field
-      v-model="firstName"
-      :class="{ 'is-invalid': submitted && $v.firstName.$error }"
-      :error-messages="firstNameErrors"
-      label="First Name"
-      required
-    ></v-text-field>
-    <v-text-field
-      v-model="lastName"
-      :class="{ 'is-invalid': submitted && $v.lastName.$error }"
-      :error-messages="lastNameErrors"
-      label="Last Name"
-      required
-    ></v-text-field>
-    <v-text-field
-      v-model="email"
-      :class="{ 'is-invalid': submitted && $v.email.$error }"
-      :error-messages="emailErrors"
-      label="E-mail"
-      required
-    ></v-text-field>
-    <v-select
-      v-model="select"
-      :items="items"
-      :error-messages="selectErrors"
-      label="Type of Identification"
-      required
-    ></v-select>
-    <v-text-field
-      v-if="select != null"
-      v-model="id"
-      :class="{ 'is-invalid': submitted && $v.id.$error }"
-      :error-messages="idErrors"
-      label="Identification Number"
-      required
-    ></v-text-field>
-    <v-checkbox
-      v-model="checkbox"
-      :error-messages="checkboxErrors"
-      label="Do you agree?"
-      required
-    ></v-checkbox>
+  <v-card>
+    <v-container>
+      <form>
+        <v-text-field
+          v-model="firstName"
+          :class="{ 'is-invalid': submitted && $v.firstName.$error }"
+          :error-messages="firstNameErrors"
+          label="First Name"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="lastName"
+          :class="{ 'is-invalid': submitted && $v.lastName.$error }"
+          :error-messages="lastNameErrors"
+          label="Last Name"
+          required
+        ></v-text-field>
+        <vue-tel-input-vuetify v-model="phone" />
+        <v-menu
+          v-model="menu"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          transition="scale-transition"
+          offset-y
+          min-width="290px"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="date"
+              label="Enter customer age"
+              prepend-icon="event"
+              readonly
+              v-bind="attrs"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+        </v-menu>
+        <v-select
+          v-model="select"
+          :items="items"
+          :error-messages="selectErrors"
+          label="Type of Identification"
+          required
+        ></v-select>
+        <v-text-field
+          v-if="select === 'other'"
+          v-model="other"
+          :class="{ 'is-invalid': submitted && $v.other.$error }"
+          :error-messages="otherErrors"
+          label="Type of identification"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-if="select != null"
+          v-model="id"
+          :class="{ 'is-invalid': submitted && $v.id.$error }"
+          :error-messages="idErrors"
+          label="Identification Number"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="email"
+          :class="{ 'is-invalid': submitted && $v.email.$error }"
+          :error-messages="emailErrors"
+          label="E-mail"
+          required
+        ></v-text-field>
 
-    <v-btn class="mr-4" @click.prevent="submit">submit</v-btn>
-    <v-btn @click="clear">clear</v-btn>
-  </form>
+        <v-btn class="mr-4" @click.prevent="submit">submit</v-btn>
+        <v-btn @click="clear">clear</v-btn>
+      </form>
+    </v-container>
+  </v-card>
 </template>
 
 <script>
 import { required, email } from 'vuelidate/lib/validators'
+// https://vuejsexamples.com/international-telephone-input-with-vuetify/
+import VueTelInputVuetify from 'vue-tel-input-vuetify/lib/vue-tel-input-vuetify.vue'
 
 export default {
   validations: {
     firstName: { required },
     lastName: { required },
     id: { required },
-    email: { required, email },
+    email: { email },
     select: { required },
     checkbox: {
       checked(val) {
@@ -64,16 +93,23 @@ export default {
       },
     },
   },
+  components: {
+    VueTelInputVuetify,
+  },
   data() {
     return {
       firstName: '',
       lastName: '',
       id: '',
       email: '',
+      other: '',
       select: null,
       items: ['Driving Licence', 'Passport', 'Personal ID', 'other'],
       checkbox: false,
       submitted: false,
+      date: new Date().toISOString().substr(0, 10),
+      menu: false,
+      phone: '',
     }
   },
 
@@ -110,7 +146,6 @@ export default {
       const errors = []
       if (!this.$v.email.$dirty) return errors
       !this.$v.email && errors.push('Must be valid e-mail')
-      !this.$v.email.required && errors.push('E-mail is required')
       return errors
     },
     idErrors() {
@@ -119,12 +154,18 @@ export default {
       !this.$v.id.required && errors.push('ID is required.')
       return errors
     },
+    otherErrors() {
+      const errors = []
+      if (!this.$v.other.$dirty) return errors
+      !this.$v.other.required &&
+        errors.push('Some type of Identification is required')
+      return errors
+    },
   },
 
   methods: {
     submit() {
       this.submitted = true
-      console.log(this.select)
       this.$v.$touch()
       if (this.$v.$invalid) {
         this.submitStatus = 'ERROR'
@@ -135,10 +176,15 @@ export default {
     },
     clear() {
       this.$v.$reset()
-      this.name = ''
+      this.firstName = ''
+      this.lastName = ''
       this.email = ''
+      this.id = ''
       this.select = null
-      this.checkbox = false
+      this.submitted = false
+      this.menu = false
+      this.phone = ''
+      this.date = new Date().toISOString().substr(0, 10)
     },
   },
 }
