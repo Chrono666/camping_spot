@@ -5,8 +5,11 @@
         >CAMPING SPOT</v-toolbar-title
       >
       <v-spacer></v-spacer>
+      <v-btn icon @click="$router.push('/customer')">
+        <v-icon>home</v-icon>
+      </v-btn>
 
-      <v-menu left bottom>
+      <!-- <v-menu left bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
             <v-icon>mdi-dots-vertical</v-icon>
@@ -21,7 +24,7 @@
             <v-list-item-title>{{ item.options }}</v-list-item-title>
           </v-list-item>
         </v-list>
-      </v-menu>
+      </v-menu>-->
       <v-btn icon @click="onLogout">
         <v-icon>block</v-icon>
       </v-btn>
