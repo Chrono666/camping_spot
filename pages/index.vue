@@ -1,9 +1,13 @@
 <template>
-  <div>
-    Camping Spot
-  </div>
+  <v-container>
+    <h1>Camping Spot</h1>
+    <Form />
+  </v-container>
 </template>
 
 <script>
-export default {}
+import Form from '@/components/Form/Form'
+export default {
+  components: { Form },
+}
 </script>
