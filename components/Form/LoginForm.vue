@@ -31,7 +31,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn @click="login" color="primary">Login</v-btn>
+              <v-btn color="primary" @click="onLogin">Login</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -42,8 +42,12 @@
 
 <script>
 export default {
+  data() {
+    return {}
+  },
   methods: {
-    login() {
+    onLogin() {
+      this.$store.dispatch('changeLogin')
       this.$router.push('/customer')
     },
   },
