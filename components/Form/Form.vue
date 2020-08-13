@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { required, maxLength, email } from 'vuelidate'
+import { required, maxLength, email } from 'vuelidate/lib/validators'
 
 export default {
   validations: {
