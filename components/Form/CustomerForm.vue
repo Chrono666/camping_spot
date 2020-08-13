@@ -73,17 +73,18 @@
         ></v-text-field>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="3">
-            Booking Period
+            <h3>Booking Period</h3>
           </v-col>
         </v-row>
         <v-row align="center" justify="center">
           <v-col cols="12" md="5">
-            <v-date-picker v-model="date"></v-date-picker>
+            <v-date-picker v-model="startDate" elevation="1"></v-date-picker>
           </v-col>
           <v-col cols="12" md="5">
-            <v-date-picker v-model="date"></v-date-picker>
+            <v-date-picker v-model="endDate" elevation="1"></v-date-picker>
           </v-col>
         </v-row>
+        <br />
         <v-btn class="mr-4" @click.prevent="submit">submit</v-btn>
         <v-btn @click="clear">clear</v-btn>
       </form>
@@ -105,11 +106,6 @@ export default {
     phone: { required },
     email: { email },
     select: { required },
-    checkbox: {
-      checked(val) {
-        return val
-      },
-    },
   },
   components: {
     VueTelInputVuetify,
@@ -126,18 +122,14 @@ export default {
       checkbox: false,
       submitted: false,
       date: new Date().toISOString().substr(0, 10),
+      startDate: new Date().toISOString().substr(0, 10),
+      endDate: new Date().toISOString().substr(0, 10),
       menu: false,
       phone: '',
     }
   },
 
   computed: {
-    checkboxErrors() {
-      const errors = []
-      if (!this.$v.checkbox.$dirty) return errors
-      !this.$v.checkbox.checked && errors.push('You must agree to continue!')
-      return errors
-    },
     selectErrors() {
       const errors = []
       if (!this.$v.select.$dirty) return errors
@@ -211,6 +203,8 @@ export default {
       this.menu = false
       this.phone = ''
       this.date = new Date().toISOString().substr(0, 10)
+      this.startDate = new Date().toISOString().substr(0, 10)
+      this.endDate = new Date().toISOString().substr(0, 10)
     },
   },
 }

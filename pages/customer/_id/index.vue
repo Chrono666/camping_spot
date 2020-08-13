@@ -9,14 +9,14 @@
     </v-row>
     <br />
     <v-container>
-      <Form />
+      <CustomerForm />
     </v-container>
   </v-container>
 </template>
 
 <script>
-import Form from '~/components/Form/Form'
+import CustomerForm from '~/components/Form/CustomerForm'
 export default {
-  components: { Form },
+  components: { CustomerForm },
 }
 </script>

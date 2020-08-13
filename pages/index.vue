@@ -1,9 +1,12 @@
 <template>
-  <v-container>
-    <nuxt-link to="/customer">Customer</nuxt-link>
-  </v-container>
+  <LoginForm />
 </template>
 
 <script>
-export default {}
+import LoginForm from '~/components/Form/LoginForm.vue'
+export default {
+  components: {
+    LoginForm,
+  },
+}
 </script>
