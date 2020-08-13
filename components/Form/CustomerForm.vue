@@ -3,22 +3,22 @@
     <v-container>
       <form>
         <v-text-field
-          v-model="firstName"
-          :class="{ 'is-invalid': submitted && $v.firstName.$error }"
+          v-model="customer.firstName"
+          :class="{ 'is-invalid': submitted && $v.customer.firstName.$error }"
           :error-messages="firstNameErrors"
           label="First Name"
           required
         ></v-text-field>
         <v-text-field
-          v-model="lastName"
-          :class="{ 'is-invalid': submitted && $v.lastName.$error }"
+          v-model="customer.lastName"
+          :class="{ 'is-invalid': submitted && $v.customer.lastName.$error }"
           :error-messages="lastNameErrors"
           label="Last Name"
           required
         ></v-text-field>
         <vue-tel-input-vuetify
-          v-model="phone"
-          :class="{ 'is-invalid': submitted && $v.phone.$error }"
+          v-model="customer.phone"
+          :class="{ 'is-invalid': submitted && $v.customer.phone.$error }"
           :error-messages="phoneErrors"
         />
         <v-menu
@@ -31,7 +31,7 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
-              v-model="date"
+              v-model="customer.customerAge"
               label="Enter customer age"
               prepend-icon="event"
               readonly
@@ -39,34 +39,35 @@
               v-on="on"
             ></v-text-field>
           </template>
-          <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+          <v-date-picker
+            v-model="customer.customerAge"
+            @input="menu = false"
+          ></v-date-picker>
         </v-menu>
         <v-select
-          v-model="select"
+          v-model="customer.select"
           :items="items"
           :error-messages="selectErrors"
           label="Type of Identification"
           required
         ></v-select>
         <v-text-field
-          v-if="select === 'other'"
-          v-model="other"
-          :class="{ 'is-invalid': submitted && $v.other.$error }"
-          :error-messages="otherErrors"
+          v-if="customer.select === 'other'"
+          v-model="customer.other"
           label="Type of identification"
           required
         ></v-text-field>
         <v-text-field
-          v-if="select != null"
-          v-model="id"
-          :class="{ 'is-invalid': submitted && $v.id.$error }"
+          v-if="customer.select != null"
+          v-model="customer.id"
+          :class="{ 'is-invalid': submitted && $v.customer.id.$error }"
           :error-messages="idErrors"
           label="Identification Number"
           required
         ></v-text-field>
         <v-text-field
-          v-model="email"
-          :class="{ 'is-invalid': submitted && $v.email.$error }"
+          v-model="customer.email"
+          :class="{ 'is-invalid': submitted && $v.customer.email.$error }"
           :error-messages="emailErrors"
           label="E-mail"
           required
@@ -78,10 +79,16 @@
         </v-row>
         <v-row align="center" justify="center">
           <v-col cols="12" md="5">
-            <v-date-picker v-model="startDate" elevation="1"></v-date-picker>
+            <v-date-picker
+              v-model="customer.startDate"
+              elevation="1"
+            ></v-date-picker>
           </v-col>
           <v-col cols="12" md="5">
-            <v-date-picker v-model="endDate" elevation="1"></v-date-picker>
+            <v-date-picker
+              v-model="customer.endDate"
+              elevation="1"
+            ></v-date-picker>
           </v-col>
         </v-row>
         <br />
@@ -99,82 +106,77 @@ import VueTelInputVuetify from 'vue-tel-input-vuetify/lib/vue-tel-input-vuetify.
 
 export default {
   validations: {
-    firstName: { required },
-    lastName: { required },
-    id: { required },
-    other: { required },
-    phone: { required },
-    email: { email },
-    select: { required },
+    customer: {
+      firstName: { required },
+      lastName: { required },
+      id: { required },
+      phone: { required },
+      email: { email },
+      select: { required },
+    },
   },
   components: {
     VueTelInputVuetify,
   },
   data() {
     return {
-      firstName: '',
-      lastName: '',
-      id: '',
-      email: '',
-      other: '',
-      select: null,
+      customer: {
+        firstName: '',
+        lastName: '',
+        id: '',
+        email: '',
+        other: '',
+        phone: '',
+        select: null,
+        customerAge: new Date().toISOString().substr(0, 10),
+        startDate: new Date().toISOString().substr(0, 10),
+        endDate: new Date().toISOString().substr(0, 10),
+      },
       items: ['Driving Licence', 'Passport', 'Personal ID', 'other'],
       checkbox: false,
       submitted: false,
-      date: new Date().toISOString().substr(0, 10),
-      startDate: new Date().toISOString().substr(0, 10),
-      endDate: new Date().toISOString().substr(0, 10),
+      submitStatus: null,
       menu: false,
-      phone: '',
     }
   },
 
   computed: {
     selectErrors() {
       const errors = []
-      if (!this.$v.select.$dirty) return errors
-      !this.$v.select.required && errors.push('Item is required')
+      if (!this.$v.customer.select.$dirty) return errors
+      !this.$v.customer.select.required && errors.push('Item is required')
       return errors
     },
     firstNameErrors() {
       const errors = []
-      if (!this.$v.firstName.$dirty) return errors
-      !this.$v.firstName.minLength &&
-        errors.push('Name must be at least 2 characters long')
-      !this.$v.firstName.required && errors.push('First name is required.')
+      if (!this.$v.customer.firstName.$dirty) return errors
+      !this.$v.customer.firstName.required &&
+        errors.push('First name is required.')
       return errors
     },
     lastNameErrors() {
       const errors = []
-      if (!this.$v.lastName.$dirty) return errors
-      !this.$v.lastName.minLength &&
-        errors.push('Name must be at least 2 characters long')
-      !this.$v.lastName.required && errors.push('Last name is required.')
+      if (!this.$v.customer.lastName.$dirty) return errors
+      !this.$v.customer.lastName.required &&
+        errors.push('Last name is required.')
       return errors
     },
     emailErrors() {
       const errors = []
-      if (!this.$v.email.$dirty) return errors
-      !this.$v.email && errors.push('Must be valid e-mail')
+      if (!this.$v.customer.email.$dirty) return errors
+      !this.$v.customer.email && errors.push('Must be valid e-mail')
       return errors
     },
     idErrors() {
       const errors = []
-      if (!this.$v.id.$dirty) return errors
-      !this.$v.id.required && errors.push('ID is required.')
-      return errors
-    },
-    otherErrors() {
-      const errors = []
-      if (!this.$v.other.$dirty) return errors
-      !this.$v.other.required &&
-        errors.push('Some type of Identification is required')
+      if (!this.$v.customer.id.$dirty) return errors
+      !this.$v.customer.id.required && errors.push('ID is required.')
       return errors
     },
     phoneErrors() {
       const errors = []
-      if (!this.$v.phone.$dirty) return errors
-      !this.$v.phone.required &&
+      if (!this.$v.customer.phone.$dirty) return errors
+      !this.$v.customer.phone.required &&
         errors.push('Customer phone number is required')
       return errors
     },
@@ -186,25 +188,27 @@ export default {
       this.$v.$touch()
       if (this.$v.$invalid) {
         this.submitStatus = 'ERROR'
+        console.log('error')
       } else {
         this.submitStatus = 'OK'
-        console.log('submit')
+        console.log('submitted')
+        console.log(this.customer)
       }
     },
     clear() {
       this.$v.$reset()
-      this.firstName = ''
-      this.lastName = ''
-      this.email = ''
-      this.id = ''
-      this.other = ''
-      this.select = null
+      this.customer.firstName = ''
+      this.customer.lastName = ''
+      this.customer.email = ''
+      this.customer.id = ''
+      this.customer.other = ''
+      this.customer.select = null
       this.submitted = false
       this.menu = false
-      this.phone = ''
-      this.date = new Date().toISOString().substr(0, 10)
-      this.startDate = new Date().toISOString().substr(0, 10)
-      this.endDate = new Date().toISOString().substr(0, 10)
+      this.customer.phone = ''
+      this.customer.customerAge = new Date().toISOString().substr(0, 10)
+      this.customer.startDate = new Date().toISOString().substr(0, 10)
+      this.customer.endDate = new Date().toISOString().substr(0, 10)
     },
   },
 }
