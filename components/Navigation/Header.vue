@@ -25,6 +25,9 @@
           </v-list-item>
         </v-list>
       </v-menu>-->
+      <v-btn icon @click="$router.push('/map')">
+        <v-icon>map</v-icon>
+      </v-btn>
       <v-btn icon @click="onLogout">
         <v-icon>block</v-icon>
       </v-btn>
@@ -36,7 +39,11 @@
 export default {
   data() {
     return {
-      items: [{ options: 'Customer Menu' }, { options: 'Logout' }],
+      items: [
+        { options: 'Customer Menu' },
+        { options: 'Camping Map' },
+        { options: 'Logout' },
+      ],
     }
   },
   methods: {
@@ -49,6 +56,9 @@ export default {
         this.$router.push('/customer')
       }
       if (index === 1) {
+        this.$router.push('/map')
+      }
+      if (index === 2) {
         this.onLogout()
       }
     },
