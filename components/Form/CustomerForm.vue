@@ -79,13 +79,8 @@
           required
         ></v-select>
         <v-expansion-panels popout>
-          <v-expansion-panel
-            v-for="(item, i) in this.customer.additionalPeople"
-            :key="i"
-          >
-            <v-expansion-panel-header
-              >Person {{ i + 1 }}</v-expansion-panel-header
-            >
+          <v-expansion-panel v-for="i in customer.additionalPeople" :key="i">
+            <v-expansion-panel-header>Person {{ i }}</v-expansion-panel-header>
             <v-expansion-panel-content>
               <v-text-field
                 v-model="additional.firstName"
@@ -213,7 +208,9 @@ export default {
       return errors
     },
   },
-
+  beforeCreate() {
+    this.$store.dispatch('numberOfPeopleArray')
+  },
   methods: {
     submit() {
       this.submitted = true

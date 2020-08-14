@@ -15,6 +15,13 @@ export const mutations = {
   changeOverlay(state, payload) {
     state.overlay = payload
   },
+  numberOfPeopleArray(state) {
+    const number = []
+    for (let i = 0; i <= 20; i++) {
+      number.push(i)
+    }
+    state.numberOfPeople = number
+  },
 }
 
 export const actions = {
@@ -26,6 +33,9 @@ export const actions = {
   },
   changeOverlay(context, payload) {
     context.commit('changeOverlay', payload)
+  },
+  numberOfPeopleArray(context) {
+    context.commit('numberOfPeopleArray')
   },
 }
 
@@ -40,11 +50,6 @@ export const getters = {
     return state.overlay
   },
   numberOfPeopleArray(state) {
-    const number = []
-    for (let i = 0; i <= 20; i++) {
-      number.push(i)
-    }
-    state.numberOfPeople = number
     return state.numberOfPeople
   },
 }

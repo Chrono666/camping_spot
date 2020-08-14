@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar dense light>
+    <v-app-bar fixed dense light>
       <v-toolbar-title @click="$router.push('/customer')"
         >CAMPING SPOT</v-toolbar-title
       >

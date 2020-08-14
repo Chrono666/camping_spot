@@ -1,8 +1,10 @@
 <template>
   <v-app>
-    <Header />
-    <Nuxt />
-    <Footer />
+    <Header id="head" />
+    <v-main id="main">
+      <Nuxt />
+    </v-main>
+    <Footer id="footer" />
   </v-app>
 </template>
 
@@ -16,3 +18,14 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+#head {
+  margin-top: 70px;
+  display: block;
+}
+#main {
+  overflow: auto;
+  height: 100%;
+}
+</style>
