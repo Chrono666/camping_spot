@@ -24,7 +24,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary" @click="onOk">OK</v-btn>
-          <v-btn color="alert" @click="onChancel">CHANCEL</v-btn>
+          <v-btn color="error" @click="onChancel">CHANCEL</v-btn>
         </v-card-actions>
       </v-card>
     </v-row>

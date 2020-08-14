@@ -72,6 +72,34 @@
           label="E-mail"
           required
         ></v-text-field>
+        <v-select
+          v-model="customer.additionalPeople"
+          :items="$store.getters.numberOfPeopleArray"
+          label="Additional People"
+          required
+        ></v-select>
+        <v-expansion-panels popout>
+          <v-expansion-panel
+            v-for="(item, i) in this.customer.additionalPeople"
+            :key="i"
+          >
+            <v-expansion-panel-header
+              >Person {{ i + 1 }}</v-expansion-panel-header
+            >
+            <v-expansion-panel-content>
+              <v-text-field
+                v-model="additional.firstName"
+                label="First Name"
+                required
+              ></v-text-field>
+              <v-text-field
+                v-model="additional.lastName"
+                label="Last Name"
+                required
+              ></v-text-field>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="3">
             <h3>Booking Period</h3>
@@ -128,9 +156,14 @@ export default {
         other: '',
         phone: '',
         select: null,
+        additionalPeople: '',
         customerAge: new Date().toISOString().substr(0, 10),
         startDate: new Date().toISOString().substr(0, 10),
         endDate: new Date().toISOString().substr(0, 10),
+      },
+      additional: {
+        firstName: '',
+        lastName: '',
       },
       items: ['Driving Licence', 'Passport', 'Personal ID', 'other'],
       checkbox: false,

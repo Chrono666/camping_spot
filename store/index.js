@@ -2,6 +2,7 @@ export const state = () => ({
   login: false,
   securityCode: '1234',
   overlay: false,
+  numberOfPeople: [],
 })
 
 export const mutations = {
@@ -37,5 +38,13 @@ export const getters = {
   },
   getOverlay(state) {
     return state.overlay
+  },
+  numberOfPeopleArray(state) {
+    const number = []
+    for (let i = 0; i <= 20; i++) {
+      number.push(i)
+    }
+    state.numberOfPeople = number
+    return state.numberOfPeople
   },
 }
