@@ -16,7 +16,6 @@
         </v-row>
       </v-col>
     </v-row>
-    <br />
     <v-row>
       <v-col cols="12">
         <v-row align="center" justify="center">
@@ -30,7 +29,6 @@
         </v-row>
       </v-col>
     </v-row>
-    <br />
     <v-row>
       <v-col cols="12">
         <v-row align="center" justify="center">
@@ -40,6 +38,20 @@
             class="lineChart"
             @click="$router.push('/map')"
             >Camping Map</v-btn
+          >
+        </v-row>
+      </v-col>
+    </v-row>
+    <br />
+    <v-row>
+      <v-col cols="12">
+        <v-row align="center" justify="center">
+          <v-btn
+            outlined
+            width="200px"
+            class="lineChart"
+            @click="$router.push('/user')"
+            >Admin Management</v-btn
           >
         </v-row>
       </v-col>

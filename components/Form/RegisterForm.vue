@@ -57,7 +57,7 @@
 
 <script>
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
-import SecurityAlert from '~/components/SecurityAlert/SecurityAlert'
+import SecurityAlert from '~/components/Alert/SecurityAlert'
 
 export default {
   components: {
@@ -89,9 +89,6 @@ export default {
       show1: false,
       show2: false,
       show3: false,
-      status: '',
-      statusMessage: '',
-      error: false,
       submitted: false,
     }
   },
@@ -148,21 +145,15 @@ export default {
       this.user.password = ''
       this.user.confirmPassword = ''
       this.securityCode = ''
-      this.submitStatus = null
-      this.error = false
-      this.statusMessage = ''
       this.submitted = false
     },
     onSubmit(evt) {
       evt.preventDefault()
       this.submitted = true
-      this.$store.dispatch('changeOverlay', true)
       this.$v.$touch()
       if (this.$v.$invalid) {
-        console.log('not ok')
       } else {
-        console.log('OK')
-        this.overlay = true
+        this.$store.dispatch('changeOverlay', true)
       }
     },
   },

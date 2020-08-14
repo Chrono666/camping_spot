@@ -135,7 +135,6 @@ export default {
       items: ['Driving Licence', 'Passport', 'Personal ID', 'other'],
       checkbox: false,
       submitted: false,
-      submitStatus: null,
       menu: false,
     }
   },
@@ -187,10 +186,8 @@ export default {
       this.submitted = true
       this.$v.$touch()
       if (this.$v.$invalid) {
-        this.submitStatus = 'ERROR'
         console.log('error')
       } else {
-        this.submitStatus = 'OK'
         console.log('submitted')
         console.log(this.customer)
       }

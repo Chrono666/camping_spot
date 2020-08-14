@@ -1,9 +1,9 @@
 <template>
-  <v-overlay absolute="true" :value="$store.getters.getOverlay">
+  <v-overlay absolute :value="$store.getters.getOverlay">
     <v-row align="center" justify="center">
       <v-card class="elevation-12">
         <v-toolbar color="primary" dark flat>
-          <v-toolbar-title>Security Password</v-toolbar-title>
+          <v-toolbar-title>Change Security Password</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-tooltip bottom>
             <span>Source</span>
@@ -13,7 +13,8 @@
           <v-form>
             <v-text-field
               id="password"
-              label="Security Password"
+              v-model="securityCode"
+              label="New Security Password"
               name="password"
               prepend-icon="mdi-lock"
               type="password"
@@ -22,7 +23,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" @click="onLogin">OK</v-btn>
+          <v-btn color="primary" @click="onOk">OK</v-btn>
           <v-btn color="alert" @click="onChancel">CHANCEL</v-btn>
         </v-card-actions>
       </v-card>
@@ -32,9 +33,19 @@
 
 <script>
 export default {
+  data() {
+    return {
+      securityCode: '',
+    }
+  },
   methods: {
     onChancel() {
       this.$store.dispatch('changeOverlay', false)
+    },
+    onOk() {
+      this.$store.dispatch('changeSecurityCode', this.securityCode)
+      this.$store.dispatch('changeOverlay', false)
+      console.log(this.$store.getters.getSecurityCode)
     },
   },
 }
