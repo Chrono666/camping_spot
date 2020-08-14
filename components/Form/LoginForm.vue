@@ -30,6 +30,7 @@
               </v-form>
             </v-card-text>
             <v-card-actions>
+              <nuxt-link to="/user/newUser">Sign up</nuxt-link>
               <v-spacer></v-spacer>
               <v-btn color="primary" @click="onLogin">Login</v-btn>
             </v-card-actions>
@@ -47,7 +48,7 @@ export default {
   },
   methods: {
     onLogin() {
-      this.$store.dispatch('changeLogin')
+      this.$store.dispatch('changeLogin', true)
       this.$router.push('/customer')
     },
   },

@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     onLogout() {
-      this.$store.dispatch('changeLogin')
+      this.$store.dispatch('changeLogin', false)
       this.$router.push('/')
     },
     selectedAction(index) {
