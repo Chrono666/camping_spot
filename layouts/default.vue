@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Header v-if="$store.getters.getLogin == true" />
+    <Header />
     <Nuxt />
     <Footer />
   </v-app>

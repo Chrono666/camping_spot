@@ -5,8 +5,15 @@
         >CAMPING SPOT</v-toolbar-title
       >
       <v-spacer></v-spacer>
-      <v-btn icon @click="$router.push('/customer')">
+      <v-btn
+        v-if="$store.getters.getLogin"
+        icon
+        @click="$router.push('/customer')"
+      >
         <v-icon>home</v-icon>
+      </v-btn>
+      <v-btn v-if="!$store.getters.getLogin" icon @click="$router.push('/')">
+        <v-icon>undo</v-icon>
       </v-btn>
 
       <!-- <v-menu left bottom>
@@ -25,10 +32,10 @@
           </v-list-item>
         </v-list>
       </v-menu>-->
-      <v-btn icon @click="$router.push('/map')">
+      <v-btn v-if="$store.getters.getLogin" icon @click="$router.push('/map')">
         <v-icon>map</v-icon>
       </v-btn>
-      <v-btn icon @click="onLogout">
+      <v-btn v-if="$store.getters.getLogin" icon @click="onLogout">
         <v-icon>block</v-icon>
       </v-btn>
     </v-app-bar>

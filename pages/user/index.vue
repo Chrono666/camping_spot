@@ -1,8 +1,8 @@
 <template>
   <v-container style="min-width: 400px;">
     <v-row justify="center" align="center">
-      <v-card v-for="(user, index) in users" :key="user.data">
-        <v-card-title>Admin {{ index }}</v-card-title>
+      <v-card v-for="(user, index) in users" :key="index">
+        <v-card-title>Admin {{ index + 1 }}</v-card-title>
         <v-card-text>
           Firstname: {{ user.data.firstName }}
           <br />
